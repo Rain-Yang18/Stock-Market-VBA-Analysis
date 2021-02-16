@@ -18,7 +18,7 @@ Sub VBAChallenge():
         Dim totalvol As Double
         totalvol = 0
         
-        ' Create a number to count how many duplicates number exist
+        ' Create a variable to count how many duplicate tickers exist
         Dim dupcount As Double
         dupcount = 0
         
@@ -31,16 +31,16 @@ Sub VBAChallenge():
             ' Check if they have the same ticker name and add if condition
             If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
                 
-                ' Set the ticker name
+                ' Identify the ticker name
                 Ticker = ws.Cells(i, 1).Value
                 
-                ' Calculating the year differences
+                ' Calculating the yearly change between the open & close price
                 openprice = ws.Cells(i - dupcount, 3).Value
                 closeprice = ws.Cells(i, 6).Value
                 
                 yearlychange = closeprice - openprice
                 
-                    ' Build another if for the precentage change when one number is 0
+                    ' Build another condition for the precentage change when one price is 0
                     If (openprice = 0 Or closeprice = 0) Then
                         
                         percentchange = 0
@@ -51,10 +51,10 @@ Sub VBAChallenge():
                         
                         End If
                 
-                ' Adding up the total
+                ' Adding up the total volume
                 totalvol = totalvol + ws.Cells(i, 7).Value
                 
-                ' Print the ticker name in the new column
+                ' Print the new variables in the new columns
                 ws.Range("I" & sum_table_row).Value = Ticker
                 ws.Range("J" & sum_table_row).Value = yearlychange
                 ws.Range("K" & sum_table_row).Value = percentchange
@@ -63,13 +63,13 @@ Sub VBAChallenge():
                 ' Reset the sum_table_row
                 sum_table_row = sum_table_row + 1
                 
-                ' Reset the total stock volumn
+                ' Reset the total stock volume
                 totalvol = 0
                 
-                ' Reset theupcount
+                ' Reset the dupcount
                 dupcount = 0
             
-            ' If the ticker is the same, add to the total vol
+            ' If the ticker is the same, adds up the volume & the dupcount
             Else
                 totalvol = totalvol + ws.Cells(i, 7).Value
                 dupcount = dupcount + 1
