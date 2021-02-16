@@ -1,0 +1,161 @@
+Sub VBAChallenge():
+
+    ' Loop in all worksheets
+    For Each ws In Worksheets
+    
+        ' Set variables
+        Dim Ticker As String
+        Dim openprice As Double
+        Dim closeprice As Double
+        Dim yearlychange As Double
+        Dim percentchange As Double
+        
+        ' Keep track the location for each ticker in the new columns
+        Dim sum_table_row As Double
+        sum_table_row = 2
+        
+        ' Create variable to reset stock total volume
+        Dim totalvol As Double
+        totalvol = 0
+        
+        ' Create a number to count how many duplicates number exist
+        Dim dupcount As Double
+        dupcount = 0
+        
+        ' Identify the last row of each worksheet
+        lastrow = ws.Cells(Rows.Count, "A").End(xlUp).Row - 1
+        
+        ' Loop through all data
+        For i = 2 To lastrow
+        
+            ' Check if they have the same ticker name and add if condition
+            If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+                
+                ' Set the ticker name
+                Ticker = ws.Cells(i, 1).Value
+                
+                ' Calculating the year differences
+                openprice = ws.Cells(i - dupcount, 3).Value
+                closeprice = ws.Cells(i, 6).Value
+                
+                yearlychange = closeprice - openprice
+                
+                    ' Build another if for the precentage change when one number is 0
+                    If (openprice = 0 Or closeprice = 0) Then
+                        
+                        percentchange = 0
+                        
+                        Else
+                        
+                        percentchange = (closeprice - openprice) / openprice
+                        
+                        End If
+                
+                ' Adding up the total
+                totalvol = totalvol + ws.Cells(i, 7).Value
+                
+                ' Print the ticker name in the new column
+                ws.Range("I" & sum_table_row).Value = Ticker
+                ws.Range("J" & sum_table_row).Value = yearlychange
+                ws.Range("K" & sum_table_row).Value = percentchange
+                ws.Range("L" & sum_table_row).Value = totalvol
+                
+                ' Reset the sum_table_row
+                sum_table_row = sum_table_row + 1
+                
+                ' Reset the total stock volumn
+                totalvol = 0
+                
+                ' Reset theupcount
+                dupcount = 0
+            
+            ' If the ticker is the same, add to the total vol
+            Else
+                totalvol = totalvol + ws.Cells(i, 7).Value
+                dupcount = dupcount + 1
+            
+            End If
+            
+        Next i
+
+    ' Create headers for each new column in each worksheet
+    ws.Cells(1, 9).Value = "Ticker"
+    ws.Cells(1, 10).Value = "Yearly Change"
+    ws.Cells(1, 11).Value = "Percent Change"
+    ws.Cells(1, 12).Value = "Total Stock Volume"
+    
+    ' Format the yearly change column
+    ' Identify the last row of each worksheet
+    lastrow = ws.Cells(Rows.Count, "J").End(xlUp).Row - 1
+    
+        ' Build loop to write the condition if positive or negative
+        For i = 2 To lastrow
+    
+            If ws.Cells(i, 10) > 0 Then
+            
+                ws.Cells(i, 10).Interior.ColorIndex = 4
+            
+            Else
+        
+                ws.Cells(i, 10).Interior.ColorIndex = 3
+            
+            End If
+        
+        ' Format the percent change column to be percentage format
+        ws.Cells(i, 11).NumberFormat = "0.00%"
+        
+        Next i
+        
+
+
+' ------------------------------------------------------------
+' Challenge
+' ------------------------------------------------------------
+
+        ' Create the cells with the "Greatest % increase", "Greatest % decrease" and "Greatest total volume"
+        ws.Cells(2, 14).Value = "Greatest % increase"
+        ws.Cells(3, 14).Value = "Greatest % decrease"
+        ws.Cells(4, 14).Value = "Greatest total volume"
+        ws.Cells(1, 15).Value = "Ticker"
+        ws.Cells(1, 16).Value = "Value"
+        
+        ' Identify the variables
+        Dim increasetic As String
+        Dim decreasetic As String
+        Dim voltic As String
+        
+        Dim increasepercent As Double
+        Dim decreasepercent As Double
+        Dim greatestvol As Double
+        
+        ' Identify the last row of each worksheet
+        lastrow = ws.Cells(Rows.Count, "J").End(xlUp).Row - 1
+        
+        ' Identify the max & min & greatest
+        increasepercent = WorksheetFunction.Max(ws.Range("K2:K" & lastrow))
+        decreasepercent = WorksheetFunction.Min(ws.Range("K2:K" & lastrow))
+        greatestvol = WorksheetFunction.Max(ws.Range("L2:L" & lastrow))
+        
+        ' Match the ticker
+        increasetic = WorksheetFunction.Match(increasepercent, ws.Range("K2:K" & lastrow), 0)
+        decreasetic = WorksheetFunction.Match(decreasepercent, ws.Range("K2:K" & lastrow), 0)
+        voltic = WorksheetFunction.Match(greatestvol, ws.Range("L2:L" & lastrow), 0)
+        
+        ' Insert the results into the sum table
+        ws.Cells(2, 16).Value = increasepercent
+        ws.Cells(2, 16).NumberFormat = "0.00%"
+        
+        ws.Cells(2, 15).Value = ws.Cells(increasetic + 1, 9)
+        
+        ws.Cells(3, 16).Value = decreasepercent
+        ws.Cells(3, 16).NumberFormat = "0.00%"
+        
+        ws.Cells(3, 15).Value = ws.Cells(decreasetic + 1, 9)
+        
+        ws.Cells(4, 16).Value = greatestvol
+        
+        ws.Cells(4, 15).Value = ws.Cells(voltic + 1, 9)
+        
+    Next ws
+    
+End Sub
