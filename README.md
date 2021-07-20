@@ -14,7 +14,7 @@ In this homework assignment we will use VBA scripting to analyze real stock mark
 
 ## Analysis
 
-* Create a script that will loop through all the stocks for one year and output the following information.
+* The script loop through all the stocks data for one year and output the following information.
 
   * The ticker symbol.
 
@@ -24,12 +24,17 @@ In this homework assignment we will use VBA scripting to analyze real stock mark
 
   * The total stock volume of the stock.
 
-* You should also have conditional formatting that will highlight positive change in green and negative change in red.
+* Apply conditional formatting that will highlight positive change in green and negative change in red.
 
+* Return the stock with the "Greatest % increase", "Greatest % decrease" and "Greatest total volume".
+
+### 2014
 ![2014 Solution](Images/2014-solution.png)
 
+### 2015
 ![2015 Solution](Images/2015-solution.png)
 
+### 2016
 ![2016 Solution](Images/2016-solution.png)
 
 
