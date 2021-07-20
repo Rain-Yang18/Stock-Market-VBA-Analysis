@@ -26,11 +26,11 @@ In this homework assignment we will use VBA scripting to analyze real stock mark
 
 * You should also have conditional formatting that will highlight positive change in green and negative change in red.
 
-* [2014 Solution](Images/2014-solution.png)
+! [2014 Solution](Images/2014-solution.png)
 
-* [2015 Solution](Images/2015-solution.png)
+! [2015 Solution](Images/2015-solution.png)
 
-* [2016 Solution](Images/2016-solution.png)
+! [2016 Solution](Images/2016-solution.png)
 
 
 ### Copyright
