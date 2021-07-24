@@ -40,4 +40,4 @@ In this homework assignment we will use VBA scripting to analyze real stock mark
 
 ### Copyright
 
-Trilogy Education Services © 2019. All Rights Reserved.
+Trilogy Education Services © 2021. All Rights Reserved.
